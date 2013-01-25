@@ -86,7 +86,6 @@ namespace Application\Controller {
                 $email    = $this->check('login', true);
                 $password = $this->check('password', true);
                 $redirect = $this->check('redirect', true);
-//                $remember = $this->check('remember'); //TODO add support of cookie
 
 
                 $error = false;
@@ -113,7 +112,7 @@ namespace Application\Controller {
                     $sUser['username'] = $user->username;
                     $sUser['email']    = $user->mail;
 
-                    $this->popup('success', 'Hello ' . $user->username); //TODO change here
+                    $this->popup('success', 'Hello ' . $user->username);
                     if ($redirect === null)
                         $this->getKit('Redirector')->redirect('home', array());
                     else {
@@ -139,90 +138,6 @@ namespace Application\Controller {
             $this->getKit('Redirector')->redirect('home', array());
         }
 
-        public function SearchAction() {
-            $search = $this->check('search', true);
-            if ($search === null) {
-                $this->popup('error', 'The field search is empty ');
-                $this->getKit('Redirector')->redirect('home', array());
-            }
-
-            if (strpos($search, '@') === 0) {
-                $user               = new \Application\Model\User();
-                $this->data->author = $user->search(substr($search, 1));
-
-
-            } else {
-                $user               = new \Application\Model\User();
-                $this->data->author = $user->search($search);
-
-                $library            = new \Application\Model\Library();
-                $this->data->search = $library->search($search); //TODO : Allow search by user @foobar
-
-            }
-            $this->view->addOverlay('hoa://Application/View/Main/Search.xyl');
-            $this->view->render();
-
-        }
-
-        public function CreateAction() {
-            $this->guestGuard();
-
-            if (!empty($_POST)) {
-                $name        = $this->check('name', true);
-                $description = $this->check('description', true);
-                $home        = $this->check('home', true);
-                $release     = $this->check('release', true);
-                $issue       = $this->check('issues');
-                $doc         = $this->check('doc');
-
-                $error = false;
-                if ($name === null) {
-                    $this->popup('error', 'The field name is empty ');
-                    $error = true;
-                } else if ($description === null) {
-                    $this->popup('error', 'The field description is empty ');
-                    $error = true;
-                } else if ($home === null) {
-                    $this->popup('error', 'The field homepage is empty ');
-                    $error = true;
-                } else if ($release === null) {
-                    $this->popup('error', 'The field release is empty ');
-                    $error = true;
-                }
-
-                $user = new \Hoa\Session\Session('user');
-                $id   = $user['idUser'];
-
-                $library = new \Application\Model\Library();
-                if ($library->insert($id, $name, $description, $home, $release, $doc, $issue) === false) {
-                    $this->popup('error', 'An project has ever a same name');
-                    $error = true;
-                }
-
-                if ($error === true) {
-                    $this->getKit('Redirector')->redirect('home-caller', array('_able' => 'create'));
-                } else {
-
-                    $this->popup('success', 'Your projet has been create, you might wait his acception by the staff'); //TODO change here
-                    $this->getKit('Redirector')->redirect('home', array());
-                }
-            }
-
-            $this->view->addOverlay('hoa://Application/View/Main/Create.xyl');
-            $this->view->render();
-        }
-
-        public function ProfilAction() {
-            $user = new \Hoa\Session\Session('user');
-
-            $this->getKit('Redirector')->redirect('user-home', array('user' => $user['username']));
-        }
-
-        public function ListAction() { //TODO : List project by user like search @
-            $user = new \Hoa\Session\Session('user');
-
-            $this->getKit('Redirector')->redirect('user-caller', array('user' => $user['username'], '_able' => 'list'));
-        }
     }
 }
 

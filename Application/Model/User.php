@@ -28,6 +28,8 @@ namespace Application\Model {
          */
         protected $_email;
         /**
+         * Rang = 1 Banned
+         * Rang > 1 Active user
          * @invariant rang: undefined();
          */
         protected $_rang;
@@ -193,7 +195,7 @@ namespace Application\Model {
         }
 
         public function search($data) {
-            $select = 'SELECT *  FROM user AS u, rang AS r WHERE u.username LIKE :data AND u.rang > 1 AND u.rang = r.idRang LIMIT 20 ';
+            $select = 'SELECT *  FROM user WHERE username LIKE :data LIMIT 20 ';
             $select = $this->getMappingLayer()->prepare($select)->execute(
                 array(
                     'data' => $data . '%'
@@ -203,7 +205,7 @@ namespace Application\Model {
         }
 
         public function all() {
-            $select = 'SELECT *  FROM user AS u, rang AS r WHERE rang = r.idRang';
+            $select = 'SELECT *  FROM user';
             $select = $this->getMappingLayer()->prepare($select)->execute()->fetchAll();
 
             return $select;

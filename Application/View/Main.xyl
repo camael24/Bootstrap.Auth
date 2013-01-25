@@ -3,7 +3,6 @@
 <?xyl-stylesheet    href="hoa://Application/Public/Css/bootstrap-responsive.css" ?>
 <?xyl-stylesheet    href="hoa://Application/Public/Css/style.css" ?>
 <?xyl-meta          name="viewport" content="width=device-width, initial-scale=1.0" ?>
-<?xyl-fragment   href="hoa://Application/View/Fragment.xyl" as="handle"?>
 
 <document xmlns="http://hoa-project.net/xyl/xylophone">
     <title>Hoathis.net</title>
@@ -11,21 +10,18 @@
     <script src="hoa://Application/Public/Js/bootstrap.js"/>
 
     <navbar/>
-    <navbar-admin/>
+
 
     <div id="b" class="container-fluid">
         <article id="flash"/>
         <article id="content"/>
-
     </div>
 
     <footer>
         <p>
-            <a href="http://www.hoaproject.net">Hoa</a>
-            est la création de&amp;amp;nbsp;<a href="http://mnt.io/">Ivan Enderlin</a>, tous droits réservés | Hoathis est en CDD (Community Driven Developpment).
+            Hoa / Hoathis (Kit Aggregator - Redirector) / Twitter.Bootstrap / Auth (Controller - Model - View)
         </p>
     </footer>
-
 
 
 </document>

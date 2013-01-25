@@ -19,8 +19,7 @@ from('Hoa')
 
 from('Application')
     ->import('Model.*')
-    ->import('Controller.Generic')
-    ->import('Controller.Admin.*');
+    ->import('Controller.Generic');
 
 
 from('Hoathis')
@@ -46,34 +45,7 @@ try {
     ));
 
 
-    /*
-    * Controlleur, , Action , Variable
-    * http://sample.hoathis.hoa/ => Project , List , $project = sample
-    * http://sample.hoathis.hoa/edit.html => Project , Edit , $project = sample
-    * http://sample.hoathis.hoa/delete.html => Project , Delete , $project = sample
-    * http://hoathis.hoa/thehawk => User , Profil , $user = thehawk
-    * http://hoathis.hoa/thehawk/edit.html => User , Edit , $user = thehawk
-    * http://hoathis.hoa/thehawk/delete.html => User , Delete , $user = thehawk
-    * http://hoathis.hoa/ => Main , Index
-    * http://hoathis.hoa/search.html => Main , Search
-    * http://hoathis.hoa/a/ => Admin , Index
-    * http://hoathis.hoa/a/users.html => Admin , Users
-    * http://hoathis.hoa/a/users/1 => Admin , Users , $user = thehawk
-    */
-// $router->setSubdomainSuffix('hoathis');
-
     $router
-        ->get_post('admin-user-id', '/a/user/(?<_able>[^-]+)-(?<id>[^\.]+)\.html', 'admin\user')
-        ->get_post('admin-user', '/a/user/(?<_able>[^\.]+)\.html', 'admin\user')
-        ->get_post('admin-project-id', '/a/project/(?<_able>[^-]+)-(?<id>[^\.]+)\.html', 'admin\project')
-        ->get_post('admin-project', '/a/project/(?<_able>[^\.]+)\.html', 'admin\project')
-        ->get_post('admin-home', '/a/', 'admin\main', 'index')
-
-        ->get_post('project-caller', '/p/(?<project>[^/]+)/(?<_able>[^\.]+)\.html', 'project')
-        ->get('project-home', '/p/(?<project>[^/]+)/', 'project', 'info')
-        ->get_post('user-caller', '/(?<user>[^/]{3,})/(?<_able>[^\.]+)\.html', 'user', 'index')
-        ->get('user-home', '/(?<user>[^/]{3,})/', 'user', 'profil')
-        ->get_post('home-caller', '/(?<_able>[^\.]+)\.html', 'main')
         ->get('home', '/', 'main', 'index');
 
 
@@ -92,6 +64,7 @@ try {
     );
 }
 catch (\Hoa\Core\Exception\Exception $e) {
+    var_dump($e->getFormattedMessage());
     if ($e instanceof \Hoa\Session\Exception\Expired or $e instanceof \Hoa\Session\Exception\Locked or $e instanceof \Hoa\Session\Exception\Exception) {
 
         if (array_key_exists('QUERY_STRING', $_SERVER))
@@ -122,5 +95,6 @@ catch (\Hoa\Core\Exception\Exception $e) {
     }
 
 }
+
 
 

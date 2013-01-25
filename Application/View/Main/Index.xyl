@@ -2,26 +2,7 @@
 <overlay xmlns="http://hoa-project.net/xyl/xylophone">
     <article id="content">
         <div class="hero-unit">
-            <p>
-                <h2>Search in database:</h2>
 
-                <form action="@home-caller:_able=search" method="post">
-                    <div class="control-group">
-                        <!--<div class="input-append">-->
-                        <input class="span12 input-auto" id="searchBar" name="search" type="text"
-                               placeholder="Search ..."
-                               tabindex="1"/>
-                        <!--<div class="add-on">-->
-                        <!--<i class="icon-search"/>-->
-                        <!--</div>-->
-                        <!--</div>-->
-                    </div>
-                    <div class="control-group">
-                        <input type="submit" class="btn btn-success" value="Search"/>
-                    </div>
-                </form>
-
-            </p>
         </div>
         <div id="result">
 

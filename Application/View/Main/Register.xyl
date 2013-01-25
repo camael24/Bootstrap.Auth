@@ -2,7 +2,7 @@
 <overlay xmlns="http://hoa-project.net/xyl/xylophone">
     <article id="content">
         <div class="hero-unit">
-            <form action="@home-caller:_able=register" method="post" class="form-horizontal">
+            <form action="#" method="post" class="form-horizontal">
                 <legend>Register</legend>
                 <div class="control-group">
                     <label class="control-label" for="user">Login :</label>

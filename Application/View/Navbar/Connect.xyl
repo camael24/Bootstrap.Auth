@@ -17,15 +17,6 @@
                 <div class="nav-collapse collapse">
                     <ul class="nav">
                         <li>
-                            <a href="@home-caller:_able=create">Send an hoathis</a>
-                        </li>
-                        <li>
-                            <a href="@home-caller:_able=profil">Your Profile</a>
-                        </li>
-                        <li>
-                            <a href="@home-caller:_able=list">Your Hoathis</a>
-                        </li>
-                        <li>
                             <a href="@home-caller:_able=disconnect">Disconnect</a>
                         </li>
                     </ul>

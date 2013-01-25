@@ -17,13 +17,13 @@
                 <div class="nav-collapse collapse">
                     <ul class="nav">
                         <li>
-                            <a href="@home-caller:_able=connect">Sign-in</a>
+                            <a href="#">Sign-in</a>
                         </li>
                         <li>
-                            <a href="@home-caller:_able=register">Register</a>
+                            <a href="#">Register</a>
                         </li>
                         <li>
-                            <a href="@home-caller:_able=create">Send an hoathis</a>
+                            <a href="#">Send an hoathis</a>
                         </li>
                     </ul>
                 </div>
