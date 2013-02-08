@@ -8,7 +8,7 @@
  *
  * New BSD License
  *
- * Copyright © 2007-2012, Ivan Enderlin. All rights reserved.
+ * Copyright © 2007-2013, Ivan Enderlin. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
@@ -38,76 +38,79 @@ namespace {
 
     /**
      * @author     Ivan Enderlin <ivan.enderlin@hoa-project.net>
-     * @copyright  Copyright © 2007-2012 Ivan Enderlin.
+     * @copyright  Copyright © 2007-2013 Ivan Enderlin.
      */
 
-    if (!function_exists('_define')) {
-        function _define($name, $value, $case = false) {
+    define('VERBOSE', !isset($_SERVER['argv'][1]));
 
-            if (!defined($name))
-                return define($name, $value, $case);
+    function _define ( $name, $value, $case = false ) {
 
-            return false;
+        if(!defined($name))
+            return define($name, $value, $case);
+
+        return false;
+    }
+
+    function cin ( $out = null ) {
+
+        if(null !== $out)
+            cout($out);
+
+        return trim(fgets(STDIN));
+    }
+
+    function cinq ( $out = null ) {
+
+        $in = strtolower(cin($out));
+
+        switch($in) {
+
+            case 'y':
+            case 'ye':
+            case 'yes':
+            case 'yeah': // hihi
+                return true;
+                break;
+
+            default:
+                return false;
         }
     }
-    if (!function_exists('cin')) {
-        function cin($out = null) {
 
-            if (null !== $out)
-                cout($out);
+    function cout ( $out ) {
 
-            return trim(fgets(STDIN));
-        }
+        if(false === VERBOSE)
+            return 0;
+
+        return fwrite(STDOUT, $out);
     }
-    if (!function_exists('cinq')) {
 
-        function cinq($out = null) {
+    function cerr ( $out ) {
 
-            $in = strtolower(cin($out));
-
-            switch ($in) {
-
-                case 'y':
-                case 'ye':
-                case 'yes':
-                case 'yeah': // hihi
-                    return true;
-                    break;
-
-                default:
-                    return false;
-            }
-        }
+        return fwrite(STDERR, $out);
     }
-    if (!function_exists('cout')) {
-        function cout($out) {
 
-            return fwrite(STDOUT, $out);
-        }
-    }
-    if (!function_exists('check')) {
-        function check($out, $test, $die = true) {
+    function check ( $out, $test, $die = 1 ) {
 
-            if (false === $test) {
+        if(false === $test) {
 
-                cout('✖  ' . $out);
+            cerr('✖  ' . $out);
 
-                if (true === $die)
-                    exit;
-                else
-                    return;
-            }
-
-            cout('✔  ' . $out);
+            if(false !== $die)
+                exit($die);
 
             return;
         }
+
+        cout('✔  ' . $out);
+
+        return;
     }
 
-    _define('STDIN', fopen('php://stdin', 'rb'));
+    _define('STDIN',  fopen('php://stdin',  'rb'));
     _define('STDOUT', fopen('php://stdout', 'wb'));
     _define('STDERR', fopen('php://stderr', 'wb'));
-    _define('DS', DIRECTORY_SEPARATOR);
+    _define('DS',     DIRECTORY_SEPARATOR);
 
     cout('** Where is Hoa **' . "\n\n");
     cout('Ready to redefine the path to Hoa?' . "\n");
@@ -116,19 +119,26 @@ namespace {
         '  • the configuration file;' . "\n" .
         '  • the configuration cache file.' . "\n");
 
-    $go = cinq("\n" . 'There we go [y/n]? ');
+    $tail = DS . 'Core' . DS . 'Core.php';
 
-    if (false === $go) {
+    if(true === VERBOSE) {
 
-        cout('Ok, bye bye!' . "\n");
+        $go = cinq("\n" . 'There we go [y/n]? ');
 
-        exit;
+        if(false === $go) {
+
+            cout('Ok, bye bye!' . "\n");
+
+            exit;
+        }
+
+        $whereis = cin("\n" . 'A very simple question: where is Hoa so?' .
+            "\n" . '> ') . $tail;
+
+        cout("\n" . 'Assuming ' . $whereis . '.' . "\n\n");
     }
-
-    $whereis = cin("\n" . 'A very simple question: where is Hoa so?' .
-        "\n" . '> ') . DS . 'Core' . DS . 'Core.php';
-
-    cout("\n" . 'Assuming ' . $whereis . '.' . "\n\n");
+    else
+        $whereis = $_SERVER['argv'][1] . $tail;
 
     check(
         'Check if the given file exists' . "\n",
@@ -158,13 +168,16 @@ namespace {
             'HoaCoreCore.php')
     );
 
-    $goo = cinq("\n" . 'Are you to continue [y/n]? ');
+    if(true === VERBOSE) {
 
-    if (false === $goo) {
+        $goo = cinq("\n" . 'Are you sure to continue [y/n]? ');
 
-        cout('Ok, bye bye!' . "\n");
+        if(false === $goo) {
 
-        exit;
+            cout('Ok, bye bye!' . "\n");
+
+            exit;
+        }
     }
 
     cout("\n");
@@ -189,17 +202,7 @@ namespace {
         unlink($link)
     );
 
-    try {
-
-        if (true === function_exists('symlink'))
-            throw new Hoa\Core\Exception\Idle('** goto-like **');
-
-        check(
-            'Redefine the Core.link.php symbolic link.' . "\n",
-            symlink($whereis, $link)
-        );
-    }
-    catch (Hoa\Core\Exception\Idle $e) {
+    if(true !== function_exists('symlink')) {
 
         check(
             'Redefine the Core.link.php symbolic link.' . "\n",
@@ -216,7 +219,11 @@ namespace {
             )
         );
     }
-
+    else
+        check(
+            'Redefine the Core.link.php symbolic link.' . "\n",
+            symlink($whereis, $link)
+        );
 
     $jsoni = file_get_contents($json);
     $jhoa  = '("root.hoa"\s*:\s*)"(.*?)(?<!\\\)"';
@@ -236,7 +243,7 @@ namespace {
     );
 
     $cachei = file_get_contents($cache);
-    $choa   = '(\'root.hoa\'\s*=>\s*)\'(.*?)(?<!\\\)\'';
+    $choa  = '(\'root.hoa\'\s*=>\s*)\'(.*?)(?<!\\\)\'';
 
     check(
         'Check if the configuration cache file is not corrupted' . "\n",
@@ -258,5 +265,7 @@ namespace {
     cout('Path to Hoa is redefined!' . "\n");
     cout('(You may delete backups (*.orig) after ' .
         'beeing sure that all works fine).' . "\n");
+
+    exit(0);
 
 }

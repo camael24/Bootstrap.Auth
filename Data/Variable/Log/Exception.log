@@ -161,3 +161,7 @@
 [25/01/2013 13:18:48]  Hoa\Router\Http::getRule(): (2) Rule home-caller does not exist.in /usr/local/lib/Hoa/Hoa/Router/Http.php at line 377.
 [25/01/2013 13:18:48]  Hoa\Router\Http::getRule(): (2) Rule home-caller does not exist.in /usr/local/lib/Hoa/Hoa/Router/Http.php at line 377.
 [25/01/2013 13:23:06] connect.html Hoa\Router\Http::route(): (5) Cannot found an appropriated rule to route connect.html.in /usr/local/lib/Hoa/Hoa/Router/Http.php at line 495.
+[25/01/2013 15:01:55] connect.html Hoa\Router\Http::route(): (5) Cannot found an appropriated rule to route connect.html.in /usr/local/lib/Hoa/Hoa/Router/Http.php at line 495.
+[28/01/2013 10:15:39] favicon.ico Hoa\Router\Http::route(): (5) Cannot found an appropriated rule to route favicon.ico.in /usr/local/lib/Hoa/Hoa/Router/Http.php at line 495.
+[28/01/2013 10:15:40] favicon.ico Hoa\Router\Http::route(): (5) Cannot found an appropriated rule to route favicon.ico.in /usr/local/lib/Hoa/Hoa/Router/Http.php at line 495.
+[28/01/2013 10:15:41] favicon.ico Hoa\Router\Http::route(): (5) Cannot found an appropriated rule to route favicon.ico.in /usr/local/lib/Hoa/Hoa/Router/Http.php at line 495.
